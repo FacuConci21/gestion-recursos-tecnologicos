@@ -22,10 +22,11 @@ SET "CLASS_DECLARATION=public class %CLASS_NAME% {"
 type nul > ./%ENTITIES_PACKAGE_DIR%/%CLASS_NAME%.java
 CALL :CreateRepository
 CALL :CreateController
-type nul > ./%SERVICES_PACKAGE_DIR%/%CLASS_SERVICE%.java
+CALL :CreateService
+
 
 @REM ENTITY CODE INSERTION
-echo %CLASS_PACKAGE%; >> ./%ENTITIES_PACKAGE_DIR%\%CLASS_NAME%.java
+echo %CLASS_PACKAGE%.persistance.entities; >> ./%ENTITIES_PACKAGE_DIR%\%CLASS_NAME%.java
 echo ^@Entity >> ./%ENTITIES_PACKAGE_DIR%\%CLASS_NAME%.java
 echo %CLASS_DECLARATION% >> ./%ENTITIES_PACKAGE_DIR%\%CLASS_NAME%.java
 
@@ -58,6 +59,17 @@ type nul > ./%CONTROLLERS_PACKAGE_DIR%/%CLASS_CONTROLLER%.java
 echo %CLASS_PACKAGE%.web; >> ./%CONTROLLERS_PACKAGE_DIR%/%CLASS_CONTROLLER%.java
 echo ^@RestController ^@RequestMapping^(^) >> ./%CONTROLLERS_PACKAGE_DIR%/%CLASS_CONTROLLER%.java
 echo public class %CLASS_CONTROLLER% implements ApiController^<%CLASS_NAME%, PKType^> ^{ >> ./%CONTROLLERS_PACKAGE_DIR%/%CLASS_CONTROLLER%.java
+echo ^@Autowired >> ./%CONTROLLERS_PACKAGE_DIR%/%CLASS_CONTROLLER%.java
 echo private %CLASS_SERVICE% service; >> ./%CONTROLLERS_PACKAGE_DIR%/%CLASS_CONTROLLER%.java
 echo ^} >> ./%CONTROLLERS_PACKAGE_DIR%/%CLASS_CONTROLLER%.java
+EXIT /B 0
+
+:CreateService
+type nul > ./%SERVICES_PACKAGE_DIR%/%CLASS_SERVICE%.java
+echo %CLASS_PACKAGE%.service; >> ./%SERVICES_PACKAGE_DIR%/%CLASS_SERVICE%.java
+echo ^@Service >> ./%SERVICES_PACKAGE_DIR%/%CLASS_SERVICE%.java
+echo public class %CLASS_SERVICE% implements ApiService^<%CLASS_NAME%, PKType^> ^{ >> ./%SERVICES_PACKAGE_DIR%/%CLASS_SERVICE%.java
+echo ^@Autowired >> ./%SERVICES_PACKAGE_DIR%/%CLASS_SERVICE%.java
+echo public %CLASS_REPOSITORY% repository; >> ./%SERVICES_PACKAGE_DIR%/%CLASS_SERVICE%.java
+echo ^} >> ./%SERVICES_PACKAGE_DIR%/%CLASS_SERVICE%.java
 EXIT /B 0
