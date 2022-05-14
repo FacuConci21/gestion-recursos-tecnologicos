@@ -14,17 +14,18 @@ SET "CLASS_SERVICE=%CLASS_NAME%Service"
 SET "CLASS_REPOSITORY=%CLASS_NAME%Repository"
 
 @REM CODE INSTERTION VARIABLES
-SET "CLASS_PACKAGE=package com.grupo11.GestionRecursosTecnologicos;"
+SET "CLASS_PACKAGE=package com.grupo11.GestionRecursosTecnologicos"
 SET "CLASS_CONSTRUCTOR=public %CLASS_NAME%() {}"
 SET "CLASS_DECLARATION=public class %CLASS_NAME% {"
 
 @REM FILE CREATION
 type nul > ./%ENTITIES_PACKAGE_DIR%/%CLASS_NAME%.java
-type nul > ./%REPOSITORIES_PACKAGE_DIR%/%CLASS_REPOSITORY%.java
+CALL :CreateRepository
 type nul > ./%CONTROLLERS_PACKAGE_DIR%/%CLASS_CONTROLLER%.java
 type nul > ./%SERVICES_PACKAGE_DIR%/%CLASS_SERVICE%.java
 
-echo %CLASS_PACKAGE% >> ./%ENTITIES_PACKAGE_DIR%\%CLASS_NAME%.java
+@REM ENTITY CODE INSERTION
+echo %CLASS_PACKAGE%; >> ./%ENTITIES_PACKAGE_DIR%\%CLASS_NAME%.java
 echo %CLASS_DECLARATION% >> ./%ENTITIES_PACKAGE_DIR%\%CLASS_NAME%.java
 
 CALL :AddAtrributes %CLASS_ATRRIBUTES%
@@ -41,4 +42,11 @@ IF NOT [%1] EQU [] (
         CALL :AddAtrributes "%%B"
     )
 )
+EXIT /B 0
+
+:CreateRepository
+type nul > ./%REPOSITORIES_PACKAGE_DIR%/%CLASS_REPOSITORY%.java
+echo %CLASS_PACKAGE%.persistance.crud; >> ./%REPOSITORIES_PACKAGE_DIR%/%CLASS_REPOSITORY%.java
+echo public interface %CLASS_REPOSITORY% extends CrudRepository^<%CLASS_REPOSITORY%, PKType^> ^{ >> ./%REPOSITORIES_PACKAGE_DIR%/%CLASS_REPOSITORY%.java
+echo ^} >> ./%REPOSITORIES_PACKAGE_DIR%/%CLASS_REPOSITORY%.java
 EXIT /B 0
