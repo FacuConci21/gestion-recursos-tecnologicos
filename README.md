@@ -39,4 +39,7 @@ El archivo es `addclass.bat` y lo ejecutas como un comando en la terminal pasand
 ``` Batch
 addclass NombreClase "String atributo1,int atributo2"
 ```
-Ahora en los paquetes `web` y `entities` deberias ver los archivos `NombreClase.java` y `NombreClaseController.java`.
+Ahora en los paquetes `web` y `entities` deberias ver los archivos `NombreClase.java` y `NombreClaseController.java`.<br>
+Es tu responsabilidad como programador ahora limpiar el codigo, generar constructores, metodos getter&setter y el metodo findAll() en el controller.<br>
+En los paquetes `service(servicios)` y `crud(repositorios)` no se ha generado nada debido a que no implementamos persistencia de datos aun, los archivos que contienen fueron puestos para que git no los ignore.
+
