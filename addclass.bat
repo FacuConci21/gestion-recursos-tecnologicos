@@ -20,9 +20,9 @@ SET "CLASS_DECLARATION=public class %CLASS_NAME% {"
 
 @REM FILES CREATION
 CALL :CreateEntity
-CALL :CreateRepository
 CALL :CreateController
-CALL :CreateService
+@REM CALL :CreateRepository
+@REM CALL :CreateService
 
 EXIT /B %errorlevel%
 
@@ -35,7 +35,7 @@ echo %CLASS_DECLARATION% >> ./%ENTITIES_PACKAGE_DIR%\%CLASS_NAME%.java
 
 CALL :AddAtrributes %CLASS_ATRRIBUTES%
 
-Echo %CLASS_CONSTRUCTOR% >> ./%ENTITIES_PACKAGE_DIR%\%CLASS_NAME%.java
+@REM Echo %CLASS_CONSTRUCTOR% >> ./%ENTITIES_PACKAGE_DIR%\%CLASS_NAME%.java
 Echo } >> ./%ENTITIES_PACKAGE_DIR%\%CLASS_NAME%.java
 EXIT /B 0
 
