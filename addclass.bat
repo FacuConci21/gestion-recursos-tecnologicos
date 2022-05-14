@@ -18,14 +18,17 @@ SET "CLASS_PACKAGE=package com.grupo11.GestionRecursosTecnologicos"
 SET "CLASS_CONSTRUCTOR=public %CLASS_NAME%() {}"
 SET "CLASS_DECLARATION=public class %CLASS_NAME% {"
 
-@REM FILE CREATION
-type nul > ./%ENTITIES_PACKAGE_DIR%/%CLASS_NAME%.java
+@REM FILES CREATION
+CALL :CreateEntity
 CALL :CreateRepository
 CALL :CreateController
 CALL :CreateService
 
+EXIT /B %errorlevel%
 
-@REM ENTITY CODE INSERTION
+:CreateEntity
+type nul > ./%ENTITIES_PACKAGE_DIR%/%CLASS_NAME%.java
+
 echo %CLASS_PACKAGE%.persistance.entities; >> ./%ENTITIES_PACKAGE_DIR%\%CLASS_NAME%.java
 echo ^@Entity >> ./%ENTITIES_PACKAGE_DIR%\%CLASS_NAME%.java
 echo %CLASS_DECLARATION% >> ./%ENTITIES_PACKAGE_DIR%\%CLASS_NAME%.java
@@ -34,8 +37,7 @@ CALL :AddAtrributes %CLASS_ATRRIBUTES%
 
 Echo %CLASS_CONSTRUCTOR% >> ./%ENTITIES_PACKAGE_DIR%\%CLASS_NAME%.java
 Echo } >> ./%ENTITIES_PACKAGE_DIR%\%CLASS_NAME%.java
-
-EXIT /B %errorlevel%
+EXIT /B 0
 
 :AddAtrributes
 IF NOT [%1] EQU [] (
